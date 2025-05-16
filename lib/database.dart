@@ -27,10 +27,14 @@ void initDb() {
 
   db.execute('''
     CREATE TABLE IF NOT EXISTS assignments (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
       ticket_id INTEGER,
       technician_id INTEGER,
       assigned_by INTEGER,
-      assigned_at TEXT
+      assigned_at TEXT,
+      FOREIGN KEY (technician_id) REFERENCES users(id),
+      FOREIGN KEY (ticket_id) REFERENCES tickets(id),
+      FOREIGN KEY (assigned_by) REFERENCES users(id)
     );
   ''');
 

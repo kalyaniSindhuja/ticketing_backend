@@ -1,7 +1,6 @@
 import 'package:shelf/shelf.dart';
 import 'package:shelf/shelf_io.dart' as io;
 import 'package:shelf_router/shelf_router.dart';
-
 import 'package:ticketing_backend/database.dart' as dbLib;
 import 'package:ticketing_backend/handlers/ticket_handler.dart';
 import 'package:ticketing_backend/handlers/user_handler.dart';
@@ -15,7 +14,6 @@ void main() async {
 
   final userService = UserService(db);
   final ticketService = TicketService(db);
-
   final userHandler = UserHandler(userService);
   final ticketHandler = TicketHandler(ticketService);
   final authController = AuthController(userService);

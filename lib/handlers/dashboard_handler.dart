@@ -70,11 +70,37 @@ Map<String, int> getAdminTicketStats(Database db) {
   return {'total': total, 'open': open, 'closed': closed};
 }
 
+// //List<Map<String, dynamic>> getTechnicianOpenTickets(Database db, String email) {
+//   final techUserResult = db.select('SELECT id FROM users WHERE email = ?', [
+//     email,
+//   ]);
+
+//   if (techUserResult.isEmpty) return [];
+
+//   final techId = techUserResult.first['id'];
+//   final results = db.select(
+//     '''
+//   SELECT tickets.*
+//   FROM tickets
+//   JOIN assignments ON tickets.id = assignments.ticket_id
+//   WHERE assignments.technician_id = ? AND tickets.status = 'open'
+//   ''',
+//     [techId],
+//   );
+
+//   return resultSetToMapList(results);
+// }
+
 List<Map<String, dynamic>> getTechnicianOpenTickets(Database db, String email) {
   final techUserResult = db.select('SELECT id FROM users WHERE email = ?', [
     email,
   ]);
-  if (techUserResult.isEmpty) return [];
+
+  if (techUserResult.isEmpty) {
+    return [
+      {'count': 0, 'tickets': []},
+    ];
+  }
 
   final techId = techUserResult.first['id'];
 
@@ -88,7 +114,12 @@ List<Map<String, dynamic>> getTechnicianOpenTickets(Database db, String email) {
     [techId],
   );
 
-  return resultSetToMapList(results);
+  final ticketList = resultSetToMapList(results);
+  final count = ticketList.length;
+
+  return [
+    {'count': count, 'tickets': ticketList},
+  ];
 }
 
 List<Map<String, dynamic>> resultSetToMapList(ResultSet results) {
